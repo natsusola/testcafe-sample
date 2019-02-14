@@ -24,7 +24,7 @@
       ) {{ errorMsg }}
       button(
         id="btn-login"
-        @click="login"
+        @submit="login"
       ) 登入
 </template>
 

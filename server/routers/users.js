@@ -1,5 +1,6 @@
 const express = require('express');
 const { find, omit } = require('lodash/fp');
+const { timeout } = require('../utils/timeout');
 
 const router = express.Router();
 
@@ -24,12 +25,14 @@ const users = [
   },
 ];
 
-router.post('/login', (req, res) => {
+router.post('/login', async (req, res) => {
   const { body } = req;
   const user = find(
     o => o.account === body.account && o.password === body.password,
     users,
   );
+
+  // await timeout(4000);
 
   if (user) res.send(omit(['password'], user));
   else res.status(403).send({ message: '帳號密碼錯誤' });

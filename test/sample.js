@@ -1,18 +1,24 @@
-import { Selector, ClientFunction } from 'testcafe';
+import { Selector, ClientFunction, RequestLogger } from 'testcafe';
 import { url } from './untils/config';
 
 const getWindowLocation = ClientFunction(() => window.location);
+
+const logger = new RequestLogger(
+  { url: /login/, method: 'POST' },
+  { logResponseBody: true, stringifyResponseBody: true }
+);
 
 fixture('Login Page')
   .page(`${url}/#/login`);
 
 // 登入後是否成成功跳轉頁面
-test('Login Success', async t => {
+test
+.requestHooks(logger)
+('Login Success', async t => {
   const inputAccount = Selector('#input-account');
   const inputPassword = Selector('#input-password');
   const btnLogin = Selector('#btn-login');
 
-  
   await t
     .setTestSpeed(1)
     .typeText(inputAccount, 'admin')
@@ -20,14 +26,16 @@ test('Login Success', async t => {
     .click(btnLogin);
 
   const location = await getWindowLocation();
-
+  console.log(logger.requests[0]);
   await t
     .expect(location.href)
-    .notContains('login', 'Do not redirect.');
+    .notContains('login', 'Login failed');
 });
 
 // 帳號密碼錯誤是否顯示錯誤訊息
-test('Login Fail', async t => {
+test
+.requestHooks(logger)
+('Login Fail', async t => {
   const inputAccount = Selector('#input-account');
   const inputPassword = Selector('#input-password');
   const btnLogin = Selector('#btn-login');
@@ -40,7 +48,7 @@ test('Login Fail', async t => {
     .click(btnLogin);
 
   const errorMsg = await hintLoginError.innerText;
-  
+  console.log(logger.requests[0]);
   await t
     .expect(!!errorMsg)
     .ok('No error message.');
