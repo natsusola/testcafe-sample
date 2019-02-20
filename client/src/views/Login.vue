@@ -6,13 +6,13 @@
       input.hide(name="password" type="password")
 
       div
-        | 帳號:
+        .label Account
         input(
           id="input-account"
           v-model="account"
         )
       div
-        | 密碼:
+        .label Password
         input(
           id="input-password"
           type="password"
@@ -25,7 +25,7 @@
       button(
         id="btn-login"
         @submit="login"
-      ) 登入
+      ) Login
 </template>
 
 <script>
@@ -68,5 +68,10 @@ export default {
   height: 0px;
   border: 0;
   width: 0px;
+}
+
+.label {
+  display: inline-block;
+  width: 80px;
 }
 </style>

@@ -9,7 +9,7 @@ const logger = new RequestLogger(
 );
 
 fixture('Login Page')
-  .page(`${url}/#/login`);
+  .page(`${url}/login`);
 
 // 登入後是否成成功跳轉頁面
 test

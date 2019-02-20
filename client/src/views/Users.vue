@@ -1,25 +1,27 @@
 <template lang="pug">
   .user-page
     button(
-      id="btn-logout"
       @click="logout"
-    ) 登出
+      test-id="btn-logout"
+    ) Logout
     table
       tr
         th
-        th 帳號
-        th email
-        th 管理員
+        th Account
+        th Email
+        th Admin
+        th(test-id="list-col-act") Action
       tr(
         v-for="user in users"
         :key="user.account"
+        test-id="list-row-user"
       )
         td
         td {{ user.account }}
         td {{ user.email }}
         td {{ user.isAdmin }}
         td
-          button 刪除
+          button(test-id="btn-del") Del
 </template>
 
 <script>
